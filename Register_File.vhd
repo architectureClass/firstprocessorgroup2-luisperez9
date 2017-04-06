@@ -1,6 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 
 
 entity Register_File is
@@ -29,11 +29,11 @@ begin
 			crs2 <=(others => '0');
 			registers <=(others =>x"00000000");
 		else
-			registers(0)<=x"00000000";
-			crs1 <= registers(conv_integer(rs1));
-			crs2 <= registers(conv_integer(rs2));
+			registers(0)<=x"00000000"; 
+			crs1 <= registers(to_integer(unsigned(rs1)));
+			crs2 <= registers(to_integer(unsigned(rs2)));
 			if(rd /= "00000") then
-				registers(conv_integer(rd)) <= dwr;
+				registers(to_integer(unsigned(rd))) <= dwr;
 			end if;
 		end if;
 	end process;
