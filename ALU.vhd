@@ -21,21 +21,21 @@ begin
 		
 		case aluop is
 			
-			when "000000" => dwr <= std_logic_vector(signed(crs1) + signed(crs2));
+			when "000000" => dwr <= std_logic_vector(signed(crs1) + signed(crs2)); 	--Add
 			
-			when "000001" => dwr <= std_logic_vector(signed(crs1) - signed(crs2));
+			when "000001" => dwr <= std_logic_vector(signed(crs1) - signed(crs2)); 	--Sub
 			
-			when "000010" => dwr <= crs1 and crs2;
+			when "000010" => dwr <= crs1 and crs2; 											--And
 			
-			when "000011" => dwr <= crs1 and (not(crs2));
+			when "000011" => dwr <= crs1 and (not(crs2));									--AndN
 			
-			when "000100" => dwr <= crs1 or crs2;
+			when "000100" => dwr <= crs1 or crs2;												--Or
 			
-			when "000101" => dwr <= crs1 or (not(crs2));
+			when "000101" => dwr <= crs1 or (not(crs2));										--OrN
 			
-			when "000110" => dwr <= crs1 xor crs2;
+			when "000110" => dwr <= crs1 xor crs2;												--XOr
 			
-			when "000111" => dwr <= not(crs1 xor crs2);
+			when "000111" => dwr <= not(crs1 xor crs2);										--XNOr
 			
 			when others => dwr <= (others => '0');
 		end case;

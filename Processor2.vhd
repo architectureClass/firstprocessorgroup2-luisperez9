@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity Processor2 is
     Port ( clk : in  STD_LOGIC;
            rst : in  STD_LOGIC;
-           ein : in  STD_LOGIC_vector(31 downto 0);
+           --ein : in  STD_LOGIC_vector(31 downto 0);
 			  sout: out std_logic_vector(31 downto 0));
 end Processor2;
 
@@ -80,7 +80,7 @@ Signal FtM : std_logic_vector (31 downto 0);
 begin
 
 	Adder1 : Adder
-	port map(op1 => ein,
+	port map(op1 => x"00000001",
 				op2 => NPtP,
 				result => AtNP);
 
