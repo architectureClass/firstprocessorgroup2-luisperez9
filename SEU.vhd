@@ -9,7 +9,7 @@ end SEU;
 
 architecture Behavioral of SEU is
 
-signal temp : std_logic_vector(31 downto 0) := (others => '1');
+--signal temp : std_logic_vector(31 downto 0) := (others => '1');
 
 begin
 	process(imm13)
