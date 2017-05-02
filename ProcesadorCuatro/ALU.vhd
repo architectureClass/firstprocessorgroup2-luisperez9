@@ -6,7 +6,7 @@ entity ALU is
     Port ( crs1 : in  STD_LOGIC_VECTOR (31 downto 0);
            crs2 : in  STD_LOGIC_VECTOR (31 downto 0);
            aluop : in  STD_LOGIC_VECTOR (5 downto 0);
-			  c	:	in	std_logic;
+			  c	:	in	std_logic_vector (0 downto 0);
            dwr : out  STD_LOGIC_VECTOR (31 downto 0));
 end ALU;
 
