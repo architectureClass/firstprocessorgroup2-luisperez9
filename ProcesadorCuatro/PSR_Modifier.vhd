@@ -12,14 +12,16 @@ end PSR_Modifier;
 
 architecture Behavioral of PSR_Modifier is
 
+--signal snzvc : std_logic_vector (3 downto 0);
+
 begin
 	process(ALuResult, ALUOP, Ope1, Ope2,rst)
 	begin
 		if rst = '1' then
-			nzvc <= "0000";
+			nzvc <="0000";
 		else
 
-			if(ALUOP = "010000" or ALUOP = "011000")then   --ADDcc ADDxcc
+			if(ALUOP = "001000" or ALUOP = "001001")then   --ADDcc ADDxcc
 				nzvc(3) <=ALuResult(31);
 				if(ALuResult = x"00000000")then
 					nzvc(2) <= '1';
@@ -29,7 +31,7 @@ begin
 				nzvc(1) <= (Ope1 and Ope2 and (not ALuResult(31))) or ((Ope1) and (not Ope2) and ALuResult(31));
 				nzvc(0) <= (Ope1 and Ope2) or ((not ALuResult(31)) and (Ope1 or Ope2));
 			else
-				if(ALUOP = "010100" or ALUOP = "011100")then --SUBcc SUBxcc
+				if(ALUOP = "001010" or ALUOP = "001011")then --SUBcc SUBxcc
 					nzvc(3) <=ALuResult(31);
 					if(ALuResult = x"00000000")then
 						nzvc(2) <= '1';
@@ -39,7 +41,7 @@ begin
 					nzvc(1) <= ((Ope1 and (not Ope2) and (not ALuResult(31))) or ((not Ope1) and Ope2 and ALuResult(31)));
 					nzvc(0) <= ((not Ope1) and Ope2) or (ALuResult(31) and ((not Ope1) or Ope2));
 				else
-					if(ALUOP = "010001" or ALUOP = "010101" or ALUOP = "010010" or ALUOP = "010110" or ALUOP = "010011" or ALUOP = "010111")then
+					if(ALUOP = "001100" or ALUOP = "001101" or ALUOP = "001110" or ALUOP = "001111" or ALUOP = "010000" or ALUOP = "010001")then
 						--ANDcc ANDncc ORcc ORncc XORcc XNORcc
 						nzvc(3) <=ALuResult(31);
 						if (ALuResult = x"00000000") then
@@ -53,5 +55,9 @@ begin
 				end if;
 			end if;
 		end if;
+	--	nzvc <= snzvc;
 	end process;
+	
+	
+	
 end Behavioral;

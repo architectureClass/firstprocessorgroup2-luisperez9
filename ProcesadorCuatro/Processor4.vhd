@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity Processor4 is
     Port ( clk : in  STD_LOGIC;
@@ -15,6 +16,12 @@ component SEU is
            crs2 : out  STD_LOGIC_VECTOR (31 downto 0));
 end component;
 
+component CU is
+    Port ( op3 : in  STD_LOGIC_VECTOR (5 downto 0);
+           op : in  STD_LOGIC_VECTOR (1 downto 0);
+           AluOp : out  STD_LOGIC_VECTOR (5 downto 0));
+end component;
+
 component Mux is
     Port ( input_1 : in  STD_LOGIC_VECTOR (31 downto 0);
            input_2 : in  STD_LOGIC_VECTOR (31 downto 0);
@@ -26,7 +33,7 @@ component ALU is
     Port ( crs1 : in  STD_LOGIC_VECTOR (31 downto 0);
            crs2 : in  STD_LOGIC_VECTOR (31 downto 0);
            aluop : in  STD_LOGIC_VECTOR (5 downto 0);
-			  c : in std_logic_vector (0 downto 0);
+			  c : in std_logic;
            dwr : out  STD_LOGIC_VECTOR (31 downto 0));
 end component;
 
@@ -34,12 +41,6 @@ component Adder is
     Port ( op1 : in  STD_LOGIC_VECTOR (31 downto 0);
            op2 : in  STD_LOGIC_VECTOR (31 downto 0);
            result : out  STD_LOGIC_VECTOR (31 downto 0));
-end component;
-
-component CU is
-    Port ( op3 : in  STD_LOGIC_VECTOR (5 downto 0);
-           op : in  STD_LOGIC_VECTOR (1 downto 0);
-           AluOp : out  STD_LOGIC_VECTOR (5 downto 0));
 end component;
 
 component PC is
@@ -70,9 +71,9 @@ component PSR is
     Port ( rst : in  STD_LOGIC;
            clk : in  STD_LOGIC;
            nzvc : in  STD_LOGIC_VECTOR (3 downto 0);
-           ncwp : in  STD_LOGIC_vector (0 downto 0);
-           cwp : out  STD_LOGIC_vector (0 downto 0);
-           icc : out  STD_LOGIC_vector (0 downto 0));
+           ncwp : in  STD_LOGIC;
+           cwp : out  STD_LOGIC;
+           icc : out  STD_LOGIC);
 end component;
 
 component PSR_Modifier is
@@ -90,8 +91,8 @@ component wm is
            rsd : in  STD_LOGIC_VECTOR (4 downto 0);
            op : in  STD_LOGIC_VECTOR (1 downto 0);
            op3 : in  STD_LOGIC_VECTOR (5 downto 0);
-           cwp : in  STD_LOGIC_vector (0 downto 0);
-           ncwp : out  STD_LOGIC_vector (0 downto 0);
+           cwp : in  STD_LOGIC;
+           ncwp : out  STD_LOGIC;
            nrs1 : out  STD_LOGIC_VECTOR (5 downto 0);
            nrs2 : out  STD_LOGIC_VECTOR (5 downto 0);
            nrd : out  STD_LOGIC_VECTOR (5 downto 0));
@@ -110,10 +111,13 @@ Signal FtM : std_logic_vector (31 downto 0);
 signal r1 : std_logic_vector (5 downto 0);
 signal r2 : std_logic_vector (5 downto 0);
 signal rdes : std_logic_vector (5 downto 0);
-signal carry : std_logic_vector (0 downto 0);
+--signal carry : std_logic_vector (0 downto 0);
 signal snzvc : std_logic_vector (3 downto 0);
-signal sncwp : std_logic_vector (0 downto 0);
-signal scwp :  std_logic_vector (0 downto 0);
+--signal sncwp : std_logic_vector (0 downto 0);
+--signal scwp :  std_logic_vector (0 downto 0);
+signal scwp :  std_logic;
+signal sncwp : std_logic;
+signal carry : std_logic;
 
 begin
 
@@ -181,7 +185,7 @@ begin
 	PSR_M	: PSR_Modifier 		
 	Port map(ALuResult => AtR,
 				Ope1 => FtM(31), 
-				Ope2 => MtA(31),
+				Ope2 =>MtA(31),-- M1(31),
 				rst => rst,
 				ALUOP => Ope,
 				nzvc => snzvc);
@@ -201,4 +205,5 @@ begin
 	Sout <= AtR;
 	
 end Behavioral;
+
 
